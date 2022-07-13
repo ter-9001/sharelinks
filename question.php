@@ -236,15 +236,55 @@
                     die("Connection failed: " . $conn->connect_error);
                     }
                     
-                    $sql = "SELECT * FROM users WHERE user='{$user}'";
+                    $sql = "SELECT * FROM comments WHERE idposter='{$posterid}'";
                     $result1 = $conn->query($sql);
 
-            if ($result1->num_rows > 0) {
+           
+           
+           if ($result1->num_rows > 0) {
                 // output data of each row
 
             
-                while($userinfo = $result1->fetch_assoc()) {
+                while($row = $result1->fetch_assoc()) {
                     
+
+
+                    $user = $row['user'];
+        
+                    $sql = "SELECT * FROM users WHERE user='{$user}'";
+                    $result1 = $conn->query($sql);
+
+                    if ($result1->num_rows > 0) {
+                        // output data of each row
+
+                    
+                        while($userinfo = $result1->fetch_assoc()) {
+                            
+                                if($userinfo['gender']==1)
+                                    $color='blue';
+                                else
+                                    $color= '#ff00c3';   
+
+                        }}
+                    
+                    
+
+
+
+                        echo "
+                        <div id='userinfo' class='column'>
+                            <ion-icon name='contact'
+                            style='color:{$color}'></ion-icon>
+                            <p id='username'> {$user} </p>
+                        </div>
+                        <div class='posterinfo' style='margin-top: 30px'>
+                            {$row['comment']}
+                        </div>
+                    </div>";
+
+
+
+
                 }}
                 
                   $conn->close();
@@ -254,15 +294,6 @@
 
 
 
-                <div id='userinfo' class='column'>
-                    <ion-icon name='contact'
-                    style='color:".$color."'></ion-icon>
-                    <p id='username'> Usuario </p>
-                </div>
-                <div class="posterinfo" style="margin-top: 30px">
-                    AAAAAAAAA
-                </div>
-            </div>
 
             
     </div>
