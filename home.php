@@ -10,6 +10,14 @@
 </head>
    
     <link rel="stylesheet" type="text/css" href="style.css" />
+
+<style>
+    
+.user, #username
+{
+    text-transform: capitalize;
+}
+</style>    
 <body>
 
         <div id="main">
@@ -159,7 +167,7 @@
             <div id='userinfo' class='column'>
                 <ion-icon name='contact'
                 style='color:".$color."'></ion-icon>
-                <p id='username'> ".$row['user']." </p>
+                <p id='username' class='user'> ".$row['user']." </p>
             </div>
 
        <div id='postertexto' class='colunm'> 

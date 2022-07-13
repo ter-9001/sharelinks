@@ -7,11 +7,18 @@
     <title> Share Links </title>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="https://kit.fontawesome.com/4372633949.js" crossorigin="anonymous"></script>
+    
 </head>
 
-<link rel="stylesheet" type="text/css" href="style.css" />
 
+<link rel="stylesheet" type="text/css" href="style.css" />
 <style>
+
+
+.user, #username
+{
+    text-transform: capitalize;
+}
 
 #comments
 {
@@ -123,7 +130,7 @@
                         <div id='userinfo' class='column' style=' margin-right: 100px'>
                                 <ion-icon name='contact'
                                 style='color:".$color.";'></ion-icon>
-                                <p id='username'> {$user_main} </p>
+                                <p id='username' class='user'> {$user_main} </p>
                         </div>
                     <div style='color: grey;font-size: 25px; text-align: center'> 
                         {$text}
@@ -197,7 +204,7 @@
                                             echo "
                                             <ion-icon name='contact'
                                             style='color:{$color}'></ion-icon>
-                                            <p id='username'>{$user} </p>";   
+                                            <p id='username' class='user'>{$user} </p>";   
                         
                                     }}
                                     else
@@ -215,7 +222,7 @@
             </div>
             
             
-            <div class="quadro">
+            <div class="quadro column">
 
                   <?php
                   
@@ -275,10 +282,19 @@
                         <div id='userinfo' class='column'>
                             <ion-icon name='contact'
                             style='color:{$color}'></ion-icon>
-                            <p id='username'> {$user} </p>
+                            <p id='username' class='user'> {$user} </p>
                         </div>
-                        <div class='posterinfo' style='margin-top: 30px'>
-                            {$row['comment']}
+                        <div class='column' 
+                        style='font-size: 13px;
+                        color: grey;
+                        justify-content: start; 
+                        align-items: start'>
+                                <p> Date: {$row['date']} </p>
+                                
+                                <div style='margin-top: 10px; font-size: 17px'>
+                                    {$row['comment']}
+                                </div>
+
                         </div>
                     </div>";
 

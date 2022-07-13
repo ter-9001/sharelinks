@@ -202,3 +202,8 @@ ion-icon[name="contact"]
     width: 400px;
 
 }
+
+.user, #username
+{
+    text-transform: capitalize;
+}
