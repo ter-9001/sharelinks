@@ -74,7 +74,7 @@
     <div id="login">
         <p style="margin: 10px 0 0 10px; font-size: 25px;"> Log in: </p>
 
-        <form>
+        <form method="POST">
             <p> Email or User </p>
             <input type="text" name="emailuser" id="emailuser" />
             <p> Password </p>
@@ -92,14 +92,14 @@
     <div id="singup">
         <p style="margin: 10px 0 0 10px; font-size: 25px;"> Sing up: </p>
 
-        <form>
+        <form method="POST">
             
 
             <div class="row">
             
                 <div style="margin-right: 5px ;">
                     <p> User </p>
-                    <input type="text" name="emailuser" id="emailuser" />
+                    <input type="text" name="user" id="user" />
                     <p> Password </p>
                     <input type="text" name="password" id="password" />
 
@@ -147,4 +147,172 @@
         }  
     }
 </script>
+
+
+<?php
+// log in
+
+   if(isset($_POST['emailuser'], $_POST['password'])
+   && !(trim($_POST['emailuser'])=='' || trim($_POST['emailuser'])=='') )
+   {
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "sharelinks";
+    
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+        
+        $sql = "";
+        
+        if ($stmt = $conn->prepare('SELECT user, password FROM users WHERE user= ? or email= ?')) {
+            // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+            $stmt->bind_param('ss', $_POST['emailuser'], $_POST['emailuser']);
+            $stmt->execute();
+            // Store the result so we can check if the account exists in the database.
+            $stmt->store_result();
+
+
+
+            if ($stmt->num_rows > 0) {
+                $stmt->bind_result($user,$passwordUser);
+                $stmt->fetch();
+                // Account exists, now we verify the password.
+                // Note: remember to use password_hash in your registration file to store the hashed passwords.
+                
+
+                $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                
+
+                $hash = settype($hash,"string");
+
+                if ($hash == $passwordUser) {
+                    // Verification success! User has logged-in!
+                    // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
+                    /*
+                    
+                    session_regenerate_id();
+                    $_SESSION['loggedin'] = TRUE;
+                    $_SESSION['name'] = $_POST['username'];
+                    $_SESSION['id'] = $id;
+                    echo 'Welcome ' . $_SESSION['name'] . '!';
+                    
+
+                    */
+
+                    
+                    
+                    echo "<script> alert('Bem Vindo, {$user}!') </script>";
+
+
+
+                } else {
+                    // Incorrect password
+                    echo " <script> Alert('Incorrect username and/or password!'); </script>";
+                }
+            } else {
+                // Incorrect username
+                     echo " <script> Alert('Incorrect username and/or password!'); </script>";
+
+            }
+            
+        
+        
+            $stmt->close();
+        }
+        
+
+   }
+
+
+  
+
+
+
+// cadastrar
+     if(isset($_POST['gender']))
+     {
+
+        
+       
+        if(!isset($_POST['user'], $_POST['password'], $_POST['email'])  || trim($_POST['email'])=="" || trim($_POST['user'])=="" || trim($_POST['password'])=="" )
+        {
+            echo "<script> alert('Err: You did not fill all formulary'); </script>";
+
+        }
+        else
+        {
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "sharelinks";
+         
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+            }
+            
+            $sql = "SELECT user FROM users WHERE user='{$_POST['user']}' ";
+            $result = $conn->query($sql);
+
+            
+            $conn->close();
+            
+            if ( $result->num_rows > 0) {
+              
+                echo "<script> alert('Err: User already exist!'); </script>";
+
+            }
+            else
+            {
+                 $passwordUser = password_hash($_POST['user'], PASSWORD_DEFAULT);   
+
+                 $servername = "localhost";
+                 $username = "root";
+                 $password = "";
+                 $dbname = "sharelinks";
+              
+                 // Create connection
+                 $conn = new mysqli($servername, $username, $password, $dbname);
+                 // Check connection
+                 if ($conn->connect_error) {
+                   die("Connection failed: " . $conn->connect_error);
+                 }
+                 
+                 $sql = "INSERT INTO users values (0,'{$_POST['user']}','{$passwordUser}','{$_POST['gender']}', '{$_POST['email']}' )";
+                 
+                 if ($conn->query($sql) === TRUE) 
+                 {
+                    // usuario cadastrado
+                 }
+                 else
+                 { 
+                    die('ERRO!!!'.$conn->error);
+                 }
+
+
+            }         
+        }
+
+
+
+
+
+
+     }
+
+
+
+
+
+?>
+
+
+
 </html>

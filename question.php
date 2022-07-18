@@ -43,7 +43,7 @@
 
 #newcomm
 {
-    width: 100%;
+    width: 95%;
     height: 100px;
     border: solid 0.2px grey;
     border-radius: 10px;
@@ -51,7 +51,25 @@
     font-size: 15px;
 }
 
+#submit
+{
+    position: absolute;
+    right: -1%;
+    width: 50px; 
+    height: 105px; 
+    background-color: transparent; 
+    border: none;
+    border-radius: 10px;
+    z-index: 2;
+    margin: 0;
+}
 
+
+#submit:hover
+{
+    transition: 1s;
+    background-color: rgba(125, 125, 125, 0.3);
+}
 
 
 </style>
@@ -166,8 +184,8 @@
                     <?php
                     
                     // comment here!
-                        if(isset($_GET['user']))
-                                $user = $_GET['user'];
+                        if(isset($_GET['actualUser']))
+                                $actualUser = $_GET['actualUser'];
 
 
                                 $servername = "localhost";
@@ -185,7 +203,7 @@
                                 die("Connection failed: " . $conn->connect_error);
                                 }
                                 
-                                $sql = "SELECT * FROM users WHERE user='{$user}'";
+                                $sql = "SELECT * FROM users WHERE user='{$actualUser}'";
                                 $result1 = $conn->query($sql);
 
                         if ($result1->num_rows > 0) {
@@ -204,25 +222,42 @@
                                             echo "
                                             <ion-icon name='contact'
                                             style='color:{$color}'></ion-icon>
-                                            <p id='username' class='user'>{$user} </p>";   
+                                            <p id='username' class='user'>{$actualUser} </p>";   
                         
                                     }}
-                                    else
-                                    {
-                                        echo "<script> alert('result 0'); </script>";
-                                
-                                    }
+                                    
                                
                                     $conn->close();
 
                     ?>    
             
                 </div>
-                <input type="text" name="newcomm" id="newcomm" placeholder="Comment here :)"/>
+                        <input type="text" name="newcomm" id="newcomm" placeholder="Comment here :)"/>
+
+
+                        
+                            <?php
+
+                            $date = new DateTime('now', new DateTimeZone('Europe/London'));
+                            $dateNew = $date->format('H:m:s');
+
+
+                               echo "
+                               <div id='submit'
+                               onclick=\"sendComment('{$actualUser}','{$dateNew}','{$posterid}')\" 
+                               > </div>";         
+
+                            ?>
+
+
+                          
+                        <ion-icon style="font-size: 30px; "
+                        name="send"></ion-icon>
+                       
             </div>
             
             
-            <div class="quadro column">
+            
 
                   <?php
                   
@@ -259,13 +294,13 @@
                     $user = $row['user'];
         
                     $sql = "SELECT * FROM users WHERE user='{$user}'";
-                    $result1 = $conn->query($sql);
+                    $result2 = $conn->query($sql);
 
-                    if ($result1->num_rows > 0) {
+                    if ($result2->num_rows > 0) {
                         // output data of each row
 
                     
-                        while($userinfo = $result1->fetch_assoc()) {
+                        while($userinfo = $result2->fetch_assoc()) {
                             
                                 if($userinfo['gender']==1)
                                     $color='blue';
@@ -279,23 +314,24 @@
 
 
                         echo "
-                        <div id='userinfo' class='column'>
-                            <ion-icon name='contact'
-                            style='color:{$color}'></ion-icon>
-                            <p id='username' class='user'> {$user} </p>
-                        </div>
-                        <div class='column' 
-                        style='font-size: 13px;
-                        color: grey;
-                        justify-content: start; 
-                        align-items: start'>
-                                <p> Date: {$row['date']} </p>
-                                
-                                <div style='margin-top: 10px; font-size: 17px'>
-                                    {$row['comment']}
-                                </div>
+                        <div class='quadro column'>
+                            <div id='userinfo' class='column'>
+                                <ion-icon name='contact'
+                                style='color:{$color}'></ion-icon>
+                                <p id='username' class='user'> {$user} </p>
+                            </div>
+                            <div class='column' 
+                            style='font-size: 13px;
+                            color: grey;
+                            justify-content: start; 
+                            align-items: start'>
+                                    <p> Date: {$row['date']} </p>
+                                    
+                                    <div style='margin-top: 10px; font-size: 17px'>
+                                        {$row['comment']}
+                                    </div>
 
-                        </div>
+                            </div>
                     </div>";
 
 
@@ -313,6 +349,78 @@
 
             
     </div>
+
+<script>
+    function sendComment(user, dateNew, posterid)
+    {
+        
+        
+        window.location.href= "?actualUser="+ user+"&newcomm="+ document.getElementById('newcomm').value +"&dateNew="+dateNew+"&posterid="+posterid;
+
+
+    }
+</script>  
+
+<?php
+
+    if(isset($_GET["newcomm"]) && isset($_GET["dateNew"]))
+    {
+        $date = $_GET["dateNew"];
+        $newcomm = $_GET["newcomm"];
+                               
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "sharelinks";
+
+   
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        
+
+
+
+        $sql = "INSERT INTO comments VALUES({$posterid},'{$actualUser}',
+        '{$newcomm}',
+        '{$date}');";
+
+
+
+        
+        if ($conn->query($sql) === TRUE) {
+          
+
+
+        echo   " <script> window.location.href= '?actualUser={$actualUser}+&posterid={$posterid}'; </script>";
+
+
+
+
+
+
+
+
+          } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+          }
+
+
+
+
+
+    }
+
+
+
+
+
+
+?>
 
 
 </body>

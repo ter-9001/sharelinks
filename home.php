@@ -97,6 +97,10 @@
 
 
 <?php
+
+  if(isset($_GET['actualUser']))
+    $actualUser = $_GET['actualUser'];
+
    $servername = "localhost";
    $username = "root";
    $password = "";
@@ -163,7 +167,8 @@
         echo "
        
         
-    <div id='poster' class='row'>
+    <div id='poster' class='row' onclick=\"question({$row['id']}, 
+    '".$actualUser."')\">
             <div id='userinfo' class='column'>
                 <ion-icon name='contact'
                 style='color:".$color."'></ion-icon>
@@ -222,7 +227,13 @@
 
    function filter(a)
    {
-        location.replace('?filter='+a) 
+        window.location.href = '?filter='+a;
+   }
+
+
+   function question(a, b)
+   {
+        window.location.href = 'question.php?posterid='+a+ '&actualUser='+b;
    }
 
 </script>
