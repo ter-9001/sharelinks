@@ -193,20 +193,13 @@
                 if ($hash == $passwordUser) {
                     // Verification success! User has logged-in!
                     // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
-                    /*
-                    
-                    session_regenerate_id();
+                    session_start();
                     $_SESSION['loggedin'] = TRUE;
-                    $_SESSION['name'] = $_POST['username'];
-                    $_SESSION['id'] = $id;
-                    echo 'Welcome ' . $_SESSION['name'] . '!';
-                    
-
-                    */
-
-                    
-                    
+                    $_SESSION['user'] = $_POST['emailuser'];
                     echo "<script> alert('Bem Vindo, {$user}!') </script>";
+                    header('Location: home.php');
+                     
+                    
 
 
 

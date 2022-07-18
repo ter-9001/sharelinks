@@ -20,6 +20,8 @@
 </style>    
 <body>
 
+                
+        
         <div id="main">
                 <div class="row" id="navbar">
                     <div class="kind" onclick= "filter('youtube')">
@@ -69,11 +71,12 @@
 
 
 
-                <form class="row" style="display: flex; justify-content: center; align-items: center">
+                <form class="row" style="display: flex; justify-content: center; align-items: center"
+                method="GET">
                     <input type="text" name="search" id="" class="searchbox"
                     placeholder="Search Text or User">
                     
-                    <input type="submit" class="searchbotom row" value=""> 
+                    <input type="submit" class="searchbotom row" value> 
                         
                             <ion-icon name="search">
                         
@@ -82,11 +85,32 @@
                     
                 </form>
 
+
+                
+                <div style="width: 100%; display: flex; justify-content: center; padding: 30px 0 30px 0">
+
+
+                        <button style="width: 200px; height: 20px; border-radius: 10px; background-color: aqua;
+                        color: white; border: none;"
+                        onclick="showPoster()" id="buttonposter">
+
+                                Post here!
+
+                        </button>
+
+
+                </div>
+
+
+                
+
         </div>        
 
 
 
-        <div id="posts">
+
+
+        <div id="posts" style="margin-top: 30px ;">
 
 
 <!---
@@ -98,8 +122,11 @@
 
 <?php
 
-  if(isset($_GET['actualUser']))
-    $actualUser = $_GET['actualUser'];
+session_start();
+
+
+  if(isset($_SESSION['user']))
+    $actualUser = $_SESSION['user'];
 
    $servername = "localhost";
    $username = "root";
@@ -222,6 +249,37 @@
 
 
         </div>
+        <div id="ask" >
+
+        <form method="post" >
+
+
+            <label> Comment: </label>
+            <input type="text" name="newpost" id="newpost" 
+            style="height: 80px ;"/>
+
+
+            <label> Category: </label>
+            <select name="category" id="category">
+                <option value="youtube"> Youtube </option>
+                <option value="meet"> Meet </option>
+                <option value="relation"> Relation </option>
+                <option value="flirt"> Flirt </option>
+                <option value="others"> Others </option>
+                <option value="deepweb"> DeepWeb </option>
+
+            </select>
+
+            <input type="submit" value="Post!" style="width: 200px; height: 20px; border-radius: 10px; background-color: aqua; color: white; border: none; margin-top: 20px; position: relative;
+            left: 25%;" />
+
+
+
+
+
+        </form>
+
+        </div>
 
 <script>
 
@@ -236,7 +294,31 @@
         window.location.href = 'question.php?posterid='+a+ '&actualUser='+b;
    }
 
+   document.addEventListener("click", (evt) => {
+        const flyoutEl = document.getElementById("ask");
+        const flyoutEl2 = document.getElementById("buttonposter");
+
+        let targetEl = evt.target; // clicked element      
+        do {
+          if((targetEl == flyoutEl) || (targetEl == flyoutEl2)) {
+            // This is a click inside, does nothing, just return.
+            return;
+          }
+          // Go up the DOM
+          targetEl = targetEl.parentNode;
+        } while (targetEl);
+        // This is a click outside.      
+        document.getElementById("ask").style.display = 'none';
+      });
+
+
+      function showPoster()
+      {
+        document.getElementById('ask').style.display = 'block';
+      }
+
 </script>
+
 
 
 </body>

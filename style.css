@@ -214,3 +214,45 @@ a
     text-decoration: none;
     color: aqua;
 }
+
+#ask
+    {
+        position:absolute;
+        background-color: white;
+        width: 600px;
+        height: 600px;
+        box-shadow: 1px 1px 1px 1px aqua;
+        top: 5%;
+        right: 25%;
+        z-index: 1000;
+        display: none;
+
+    }
+
+
+    #ask label, p, a
+    {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 17px;
+        color: grey;
+        margin: 50px 0 0 0;
+    }
+
+
+
+    #ask form
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        margin-left: 20px;
+    }
+
+
+    #ask input, #ask select
+    {
+        border: 0.2 solid aqua;
+        border-radius: 10px;
+        width: 80%;
+    }
