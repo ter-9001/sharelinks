@@ -23,6 +23,61 @@
                 
         
         <div id="main">
+            
+            <div id="frameuser"
+            class="row">
+            
+            <?php
+                date_default_timezone_set('UTC');
+                session_start();
+            
+            
+                    if(isset($_SESSION["user"]))
+                        $actualUser = $_SESSION["user"];
+
+
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "sharelinks";
+                
+                
+
+
+                    // Create connection
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    // Check connection
+                    if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                    }
+                    
+                    $sql = "SELECT gender FROM users WHERE user='{$actualUser}'";
+                    $result1 = $conn->query($sql);
+
+            if ($result1->num_rows > 0) {
+                // output data of each row
+
+            
+                while($userinfo = $result1->fetch_assoc()) {
+                    
+                        if($userinfo['gender']==1)
+                            $color='blue';
+                        else
+                            $color= '#ff00c3';   
+
+
+                                                        
+                                echo "
+                                <ion-icon name='contact'
+                                style='color:{$color};
+                                font-size: 30px; '></ion-icon>
+                                <p id='username' class='user'>{$actualUser} </p>";   
+            
+                        }}
+            
+            ?>
+
+            </div>
                 <div class="row" id="navbar">
                     <div class="kind" onclick= "filter('youtube')">
                         <ion-icon name="logo-youtube"></ion-icon>    
@@ -124,7 +179,11 @@
 
 session_start();
 
-
+ if(!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+	exit;
+ }
+	
   if(isset($_SESSION['user']))
     $actualUser = $_SESSION['user'];
 
@@ -289,9 +348,9 @@ session_start();
    }
 
 
-   function question(a, b)
+   function question(a)
    {
-        window.location.href = 'question.php?posterid='+a+ '&actualUser='+b;
+        window.location.href = 'question.php?posterid='+a;
    }
 
    document.addEventListener("click", (evt) => {

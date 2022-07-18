@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Share Links </title>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="https://kit.fontawesome.com/4372633949.js" crossorigin="anonymous"></script>
     
@@ -79,6 +78,10 @@
 <body>
     
     <?php
+
+    date_default_timezone_set('UTC');
+    session_start();
+    
     
     // poster_id user comment data --> comments
 
@@ -111,6 +114,8 @@
 
             $text = $row['text'];
             $user_main = $row['user'];
+
+            echo "<title> {$text} </title>";
 
 
             if(strpos(" ".$row['text'], 'https://') > 0)
@@ -184,8 +189,8 @@
                     <?php
                     
                     // comment here!
-                        if(isset($_GET['actualUser']))
-                                $actualUser = $_GET['actualUser'];
+                        if(isset($_SESSION["user"]))
+                                $actualUser = $_SESSION["user"];
 
 
                                 $servername = "localhost";
@@ -203,7 +208,7 @@
                                 die("Connection failed: " . $conn->connect_error);
                                 }
                                 
-                                $sql = "SELECT * FROM users WHERE user='{$actualUser}'";
+                                $sql = "SELECT gender FROM users WHERE user='{$actualUser}'";
                                 $result1 = $conn->query($sql);
 
                         if ($result1->num_rows > 0) {
@@ -232,27 +237,20 @@
                     ?>    
             
                 </div>
-                        <input type="text" name="newcomm" id="newcomm" placeholder="Comment here :)"/>
+                        <form method="post"
+                        style="width: 100%">
+                            <input type="text" name="newcomm" id="newcomm" placeholder="Comment here :)"/>
 
+                            <input type="submit" value  id= 'submit'>  
+                            
+                            
+                            <ion-icon style="font-size: 30px; "
+                        name="send"></ion-icon>
 
-                        
-                            <?php
-
-                            $date = new DateTime('now', new DateTimeZone('Europe/London'));
-                            $dateNew = $date->format('H:m:s');
-
-
-                               echo "
-                               <div id='submit'
-                               onclick=\"sendComment('{$actualUser}','{$dateNew}','{$posterid}')\" 
-                               > </div>";         
-
-                            ?>
+                        </form>
 
 
                           
-                        <ion-icon style="font-size: 30px; "
-                        name="send"></ion-icon>
                        
             </div>
             
@@ -351,11 +349,11 @@
     </div>
 
 <script>
-    function sendComment(user, dateNew, posterid)
+    function sendComment()
     {
         
         
-        window.location.href= "?actualUser="+ user+"&newcomm="+ document.getElementById('newcomm').value +"&dateNew="+dateNew+"&posterid="+posterid;
+        window.location.href= "?newcomm="+ document.getElementById('newcomm').value +"&dateNew="+dateNew+"&posterid="+posterid;
 
 
     }
@@ -363,10 +361,12 @@
 
 <?php
 
-    if(isset($_GET["newcomm"]) && isset($_GET["dateNew"]))
+
+    if(isset($_POST["newcomm"]))
     {
-        $date = $_GET["dateNew"];
-        $newcomm = $_GET["newcomm"];
+        
+        $date = date("d F Y H:i:s");
+        $newcomm = $_POST["newcomm"];
                                
 
         $servername = "localhost";

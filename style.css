@@ -84,7 +84,7 @@
     align-items: center;
     
     text-align: center;
-    margin: 25px 0 50px 0;
+    margin: 0 0 50px 0;
 }
 
 .searchbox
@@ -95,6 +95,17 @@
     height: 40px;
     font-size: 15px;
     padding: 0;
+}
+
+
+
+#frameuser
+{
+    width:90%; 
+    height: 40px; 
+    margin: -3px 0 0 0;
+    justify-content: end; padding: 0 10px 0 10px;
+    line-height: 10px; align-items: center
 }
 
 .searchbotom
@@ -216,21 +227,20 @@ a
 }
 
 #ask
-    {
-        position:absolute;
-        background-color: white;
-        width: 600px;
-        height: 600px;
-        box-shadow: 1px 1px 1px 1px aqua;
-        top: 5%;
-        right: 25%;
-        z-index: 1000;
-        display: none;
+{
+    position:absolute;
+    background-color: white;
+    width: 600px;
+    height: 600px;
+    box-shadow: 1px 1px 1px 1px aqua;
+    top: 5%;
+    right: 25%;
+    z-index: 1000;
+    display: none;
+}
 
-    }
 
-
-    #ask label, p, a
+    #ask label,#ask p,#ask a
     {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-size: 17px;
