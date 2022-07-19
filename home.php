@@ -25,15 +25,19 @@
         <div id="main">
             
             <div id="frameuser"
-            class="row">
+            class="row" onclick="filterUser()">
             
             <?php
                 date_default_timezone_set('UTC');
                 session_start();
-            
-            
-                    if(isset($_SESSION["user"]))
-                        $actualUser = $_SESSION["user"];
+
+                if(!isset($_SESSION['loggedin'])) {
+                    header('Location: login.php');
+                    exit;
+                }
+                    
+                if(isset($_SESSION['user']))
+                    $actualUser = $_SESSION['user'];
 
 
                     $servername = "localhost";
@@ -177,15 +181,6 @@
 
 <?php
 
-session_start();
-
- if(!isset($_SESSION['loggedin'])) {
-    header('Location: login.php');
-	exit;
- }
-	
-  if(isset($_SESSION['user']))
-    $actualUser = $_SESSION['user'];
 
    $servername = "localhost";
    $username = "root";
@@ -253,8 +248,7 @@ session_start();
         echo "
        
         
-    <div id='poster' class='row' onclick=\"question({$row['id']}, 
-    '".$actualUser."')\">
+    <div id='poster' class='row' onclick=\"question({$row['posterid']})\">
             <div id='userinfo' class='column'>
                 <ion-icon name='contact'
                 style='color:".$color."'></ion-icon>
@@ -322,8 +316,10 @@ session_start();
             <select name="category" id="category">
                 <option value="youtube"> Youtube </option>
                 <option value="meet"> Meet </option>
-                <option value="relation"> Relation </option>
+                <option value="relation"> Relations </option>
+                <option value="doubt"> Doubt </option>
                 <option value="flirt"> Flirt </option>
+                <option value="spiritual"> Spiritual </option>
                 <option value="others"> Others </option>
                 <option value="deepweb"> DeepWeb </option>
 
@@ -339,6 +335,65 @@ session_start();
         </form>
 
         </div>
+
+<?php 
+
+   if(isset($_POST['newpost']) && isset($_POST['category']))
+   {
+        $newpost = $_POST['newpost'];
+        $category = $_POST['category'];
+        $date = date("d F Y H:i:s");
+
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "sharelinks";
+
+   
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        
+
+
+
+        $sql = "INSERT INTO posters VALUES( 0,'{$actualUser}',
+        '{$newpost}',
+        '{$category}',
+        '{$date}');";
+
+        echo "<script> alert({{$sql}); </script>";
+
+
+        
+        if ($conn->query($sql) === TRUE) {
+          
+
+
+        echo   " <script> window.location.href= '?actualUser={$actualUser}+&posterid={$posterid}'; </script>";
+
+
+
+
+
+
+
+
+          } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+          }
+
+
+
+
+   }
+
+
+?>        
 
 <script>
 
@@ -375,6 +430,12 @@ session_start();
       {
         document.getElementById('ask').style.display = 'block';
       }
+
+      function filterUser()
+      {
+        window.location.href = 'tochange.php';
+      }
+
 
 </script>
 

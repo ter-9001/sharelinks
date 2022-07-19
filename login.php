@@ -167,10 +167,12 @@
         die("Connection failed: " . $conn->connect_error);
         }
         
-        $sql = "";
         
-        if ($stmt = $conn->prepare('SELECT user, password FROM users WHERE user= ? or email= ?')) {
+                   
+        
+        if ($stmt = $conn->prepare('SELECT user, password, email FROM users WHERE user= ? or email= ?')) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+            echo "<script> alert('chamando') </script>";
             $stmt->bind_param('ss', $_POST['emailuser'], $_POST['emailuser']);
             $stmt->execute();
             // Store the result so we can check if the account exists in the database.
@@ -179,7 +181,7 @@
 
 
             if ($stmt->num_rows > 0) {
-                $stmt->bind_result($user,$passwordUser);
+                $stmt->bind_result($user,$passwordUser, $email);
                 $stmt->fetch();
                 // Account exists, now we verify the password.
                 // Note: remember to use password_hash in your registration file to store the hashed passwords.
@@ -190,15 +192,20 @@
 
                 $hash = settype($hash,"string");
 
+
                 if ($hash == $passwordUser) {
                     // Verification success! User has logged-in!
                     // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
                     session_start();
                     $_SESSION['loggedin'] = TRUE;
-                    $_SESSION['user'] = $_POST['emailuser'];
+                    
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] = $user;
+                    
+
                     echo "<script> alert('Bem Vindo, {$user}!') </script>";
-                    header('Location: home.php');
-                     
+                     header('Location: home.php');
+                   
                     
 
 
@@ -282,7 +289,9 @@
                  
                  if ($conn->query($sql) === TRUE) 
                  {
-                    // usuario cadastrado
+                    
+                    header('Location: home.php');
+                    
                  }
                  else
                  { 

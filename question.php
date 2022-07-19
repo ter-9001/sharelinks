@@ -95,8 +95,7 @@
     if(isset($_GET['posterid']))
       $posterid = $_GET['posterid'];
  
-
-
+      
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
     // Check connection
@@ -104,7 +103,8 @@
       die("Connection failed: " . $conn->connect_error);
     }
     
-    $sql = "SELECT * FROM posters WHERE id =".$posterid;
+
+    $sql = "SELECT * FROM posters WHERE posterid = {$posterid}";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
@@ -276,7 +276,8 @@
                     die("Connection failed: " . $conn->connect_error);
                     }
                     
-                    $sql = "SELECT * FROM comments WHERE idposter='{$posterid}'";
+                    $sql = "SELECT * FROM comments WHERE posterid ='{$posterid}'";
+
                     $result1 = $conn->query($sql);
 
            
