@@ -75,10 +75,12 @@
         <p style="margin: 10px 0 0 10px; font-size: 25px;"> Log in: </p>
 
         <form method="POST">
-            <p> Email or User </p>
+            <p> User </p>
             <input type="text" name="emailuser" id="emailuser" />
             <p> Password </p>
             <input type="text" name="password" id="password" />
+            
+            <input type="text" name="singup" value="no" style="display: none"/>
             <input type="submit" id="submit">
             <span>
                 Don't have a account yet?  
@@ -113,6 +115,7 @@
                         <option value="male">Male</option>
                         <option value="female" selected>Female</option>
                     </select>
+                    <input type="text" name="singup" value="yes" style="display: none"/>
                 </div>
 
             </div>
@@ -152,8 +155,8 @@
 <?php
 // log in
 
-   if(isset($_POST['emailuser'], $_POST['password'])
-   && !(trim($_POST['emailuser'])=='' || trim($_POST['emailuser'])=='') )
+   if(isset($_POST["emailuser"], $_POST["password"])
+   && !(trim($_POST['emailuser'])=='' || trim($_POST['emailuser'])=='')  && $_POST['singup'] == 'no' )
    {
         $servername = "localhost";
         $username = "root";
@@ -170,10 +173,9 @@
         
                    
         
-        if ($stmt = $conn->prepare('SELECT user, password, email FROM users WHERE user= ? or email= ?')) {
+        if ($stmt = $conn->prepare("SELECT user, password, email FROM users WHERE user=  ?")) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-            echo "<script> alert('chamando') </script>";
-            $stmt->bind_param('ss', $_POST['emailuser'], $_POST['emailuser']);
+            $stmt->bind_param('s', $_POST['emailuser']);
             $stmt->execute();
             // Store the result so we can check if the account exists in the database.
             $stmt->store_result();
@@ -187,23 +189,20 @@
                 // Note: remember to use password_hash in your registration file to store the hashed passwords.
                 
 
-                $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                
+            
 
-                $hash = settype($hash,"string");
+               
 
-
-                if ($hash == $passwordUser) {
+                if ( password_verify($_POST['password'], $passwordUser)) {
                     // Verification success! User has logged-in!
                     // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
                     session_start();
                     $_SESSION['loggedin'] = TRUE;
                     
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] = $user;
+                    // Melhorar log in 
+                    $_SESSION['user'] = $_POST['emailuser'];
+       
                     
-
-                    echo "<script> alert('Bem Vindo, {$user}!') </script>";
                      header('Location: home.php');
                    
                     
@@ -234,9 +233,10 @@
 
 
 // cadastrar
-     if(isset($_POST['gender']))
+     if(isset($_POST['singup']) && ($_POST['singup'] == 'yes'))
      {
 
+        
         
        
         if(!isset($_POST['user'], $_POST['password'], $_POST['email'])  || trim($_POST['email'])=="" || trim($_POST['user'])=="" || trim($_POST['password'])=="" )
@@ -289,6 +289,12 @@
                  
                  if ($conn->query($sql) === TRUE) 
                  {
+                    session_start();
+                    $_SESSION['loggedin'] = TRUE;
+                    
+
+
+                    $_SESSION['user'] = $_POST['user'];
                     
                     header('Location: home.php');
                     

@@ -263,6 +263,11 @@ a
         margin: 50px 0 0 0;
     }
 
+    #change label
+    {
+        margin: 20px 0 0 0;
+    }
+
 
 
     #ask form, #change form
@@ -273,6 +278,25 @@ a
         align-items: start;
         margin-left: 20px;
     }
+
+    #cpassword
+    {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        border-radius: 10px;
+        border: solid grey 0.2px;
+        padding: 30px 15px 50px 15px;
+        
+
+    }
+
+    #cpassword label
+    {
+        margin: 10px 0 0 0;
+    }
+     
 
 
     #ask  input, #ask  select,
