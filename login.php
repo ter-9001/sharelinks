@@ -153,6 +153,100 @@
 
 
 <?php
+
+if (isset($_GET['delete']) ) {
+    
+
+
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "sharelinks";
+ 
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    //p
+    session_start();
+
+
+    if ($stmt = $conn->prepare("DELETE FROM posters WHERE user=?")) {
+        // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+        $stmt->bind_param('s', $_SESSION['user']);
+        $stmt->execute();
+        // Store the result so we can check if the account exists in the database.
+        $status = $stmt->store_result();
+
+
+                if ($status === true) 
+                {
+                
+                }
+                else
+                {
+                    die($conn->error);
+                }
+
+    }
+
+    //c
+
+    if ($stmt = $conn->prepare("DELETE FROM comments WHERE user=?")) {
+        // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+        $stmt->bind_param('s', $_SESSION['user']);
+        $stmt->execute();
+        // Store the result so we can check if the account exists in the database.
+        $status = $stmt->store_result();
+
+
+                if ($status === true) 
+                {
+                }
+                else
+                {
+                    die($conn->error);
+                }
+
+    }
+
+   
+    //u
+
+    
+    if ($stmt = $conn->prepare("DELETE FROM users WHERE user=?")) {
+        // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
+        $stmt->bind_param('s', $_SESSION['user']);
+        $stmt->execute();
+        // Store the result so we can check if the account exists in the database.
+        $status = $stmt->store_result();
+
+
+                if ($status === true) 
+                {
+
+                    $_SESSION['loggedin'] = false;
+                    $_SESSION['user'] = null;
+                    header('Location: login.php');
+                }
+                else
+                {
+                    die($conn->error);
+                }
+
+    }
+
+    
+
+        
+    
+ 
+}
+
+
 // log in
 
    if(isset($_POST["emailuser"], $_POST["password"])

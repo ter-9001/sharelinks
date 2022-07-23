@@ -128,23 +128,32 @@
                 border-radius: 10px;
                 border: none;" />
 
+        
                 <button style="margin: 20px 0 0 40px;
                 background-color: red;
                 color: white;
                 border-radius: 10px;
                 border: none;
-                font-size: 17px;" onclick="
+                font-size: 17px;"  type="button" onclick="
                 
                 let person = prompt('You\'re about to delete your account \n including posters and comments \n If you wanna proceed \n digit your user name \n and click ok');
-                if (person == '<?php echo trim($_SESSION['user']); ?>') {
-                      alert('Deleting! Thank you for using our website :)');
+                
+                
+                if (person.toLowerCase () =='<?php echo trim($_SESSION['user']); ?>'.toLowerCase () ) {
+                      
+                    alert('Deleting! Thank you for using our website :)');
 
+
+                      window.location.href='login.php?delete=ok';
                       
 
 
 
                 }
-                    
+                else
+                {
+                    alert('The name informed is not your user name!');
+                }
                     
 
                 ">
@@ -152,10 +161,9 @@
                         Delete Account
 
                 </button>
-
+                </form>
             </div>
 
-        </form>
 
 
 
@@ -211,6 +219,7 @@
 <?php
 
 
+
 if (isset($_POST['home'])) {
     session_start();
     $_SESSION['loggedin'] = TRUE;
@@ -218,6 +227,7 @@ if (isset($_POST['home'])) {
     header('Location: home.php');
     exit();
 }
+
 
 if (isset($_POST['change']) && $_POST['change'] == 'yes') {
 
