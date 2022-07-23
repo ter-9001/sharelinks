@@ -112,8 +112,8 @@
                     <input type="text" name="email" id="email" />
                     <p> Gender </p>
                     <select name="gender" id="gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
                     </select>
                     <input type="text" name="singup" value="yes" style="display: none"/>
                 </div>

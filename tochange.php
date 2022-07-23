@@ -82,7 +82,25 @@
             <label> Email: </label>
             <input type="text" name="email" id="email" value="<?php echo $email; ?>" onclick="enable()" />
 
+            
+            <label> Gender: </label>
+
+                <select name="gender" id="gender">
+                    
+                    <?php 
+                    
+                          if($gender==0) 
+                             echo "<option value='0'> Female </option> <option value='1'>Male</option>";
+                          else
+                             echo "<option value='1'>Male</option> <option value='0'>Female</option>"; 
+                    ?>
+                    
+                        
+                </select>
+            
+            
             <span style="margin: 50px 0 0 0;" onclick="cpassword()"> Change password </span>
+
 
             <div id="cpassword">
 
@@ -127,6 +145,11 @@
     this.disable = true;
     var cpassword1 = 0;
     var inputs = Array.from(document.getElementsByTagName('input'));
+    var selects = Array.from(document.getElementsByTagName('select'));
+
+    var all = inputs.concat(selects);
+    all.forEach( obj => console.log(obj));
+
 
     function enable() {
         this.disable = false;
@@ -141,9 +164,9 @@
             document.getElementById('cpassword').style.display = 'none';
     }
 
-    inputs.forEach(input => {
+    all.forEach(obj => {
 
-        input.onchange = function() {
+        obj.onchange = function() {
 
 
             document.getElementById('submit').style.backgroundColor = 'aqua';
@@ -153,6 +176,11 @@
 
 
     })
+
+
+    
+
+
 </script>
 
 <?php
@@ -179,9 +207,12 @@ if (isset($_POST['change']) && $_POST['change'] == 'yes') {
 
     $user = $_POST['user'];
     $email = $_POST['email'];
+    $gender = $_POST['gender'];
 
     $ppassword = $_POST['ppassword'];
     $npassword = $_POST['npassword'];
+
+
 
 
 
@@ -273,7 +304,7 @@ if (isset($_POST['change']) && $_POST['change'] == 'yes') {
                 
                       
 
-                                if ($stmt = $conn->prepare("UPDATE users SET user=?, email= '{$email}', password=? WHERE user= '{$_SESSION['user']}'"))
+                                if ($stmt = $conn->prepare("UPDATE users SET user=?, gender = '{$gender}', email= '{$email}', password=? WHERE user= '{$_SESSION['user']}'"))
                                 {
                                             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
                     
@@ -290,7 +321,7 @@ if (isset($_POST['change']) && $_POST['change'] == 'yes') {
                                             if ($status === true) {
                     
                     
-                                                echo "<script> alert('Dados atualizandos!') </script>";
+                                                echo "<script> alert('Dados atualizandos!'); </script>";
                                                 $_SESSION['loggedin'] = TRUE;
                                                 $_SESSION['user'] = $user;
                     
@@ -318,7 +349,7 @@ if (isset($_POST['change']) && $_POST['change'] == 'yes') {
 
 
 
-    if ($stmt = $conn->prepare("UPDATE users SET user= ?, email= '{$email}' WHERE user= '{$_SESSION['user']}'
+    if ($stmt = $conn->prepare("UPDATE users SET user= ?, gender = '{$gender}', email= '{$email}' WHERE user= '{$_SESSION['user']}'
      ")) {
         // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
 
@@ -339,11 +370,13 @@ if (isset($_POST['change']) && $_POST['change'] == 'yes') {
         if ($status === true) {
 
 
-            echo "<script> alert('Dados atualizandos!') </script>";
+            echo "<script> alert('Dados atualizandos!'); </script>";
             $_SESSION['loggedin'] = TRUE;
             $_SESSION['user'] = $user;
-
             header('Location: tochange.php');
+            die('Dados atualizandos!');
+
+
         } else {
             echo "Erro 3" . $stmt->error;
         }

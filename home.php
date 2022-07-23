@@ -75,12 +75,21 @@
             ?>
 
 
-                            <ion-icon name='contact'
+                            <ion-icon name='contact' class="showmenu"
                                 style='color:<?php echo $color ?>;
-                                font-size: 30px; ' onclick="filterUser()"></ion-icon>
-                            <p id='username' class='user' onclick="filterUser()"> <?php echo $_SESSION['user'] ?> </p>
+                                font-size: 30px; ' onclick="showmenu()"></ion-icon>
+                               <p id='username' class='user showmenu' onclick="showmenu()" > <?php echo $_SESSION['user'] ?> </p>
 
-                            <ion-icon style="margin-left: 10px" name="power" onclick="window.location.href='?logoff=ok';"></ion-icon>
+                            <ul id='menu'>
+                                <li onclick="filterUser()">
+                                    <p>Change data</p>
+                                </li>
+                                <li onclick="window.location.href='?logoff=ok';">
+                                    <ion-icon style="margin: 0 10px 0 10px" name="power" ></ion-icon>
+                                    <p>  Logout </p> 
+
+                                </li>
+                            </ul>
 
 
                             
@@ -104,6 +113,8 @@
 
             </div>
 
+
+                            
 
             
 
@@ -179,9 +190,7 @@
                 <div style="width: 100%; display: flex; justify-content: center; padding: 30px 0 30px 0">
 
 
-                        <button style="width: 200px; height: 20px; border-radius: 10px; background-color: aqua;
-                        color: white; border: none;"
-                        onclick="showPoster()" id="buttonposter">
+                        <button onclick="showPoster()" id="buttonposter">
 
                                 Post here!
 
@@ -426,6 +435,8 @@
 
 <script>
 
+    var menu=0;
+
    function filter(a)
    {
         window.location.href = '?filter='+a;
@@ -465,6 +476,16 @@
         window.location.href = 'tochange.php';
       }
 
+      function showmenu()
+      {
+            menu++;
+
+            if(menu%2)
+               document.getElementById('menu').style.display = 'block';
+            else
+               document.getElementById('menu').style.display = 'none';
+
+      }
 
 </script>
 

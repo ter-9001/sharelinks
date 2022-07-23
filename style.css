@@ -103,20 +103,55 @@
 {
     position: relative;
     left: 32%;
-    width: 32%; 
+    width: 6%; 
     height: 40px; 
     margin: -3px 0 0 0;
     justify-content: end; padding: 0 10px 0 10px;
     line-height: 10px; align-items: center;
     display: flex;
     justify-content: space-between;
+    
 }
 
 
-#frameuser ion-icon:hover
+#frameuser:hover
 {
     transition: 1s;
     background-color: rgba(128, 125, 123, 0.3);
+}
+
+#menu
+{
+    display: none;
+    list-style: none;
+    z-index: 2000;
+    position:absolute;
+    right: 0%;
+    top: 20%;
+    padding: 0;
+    margin-top: 30px;
+    background-color: rgba(128, 125, 123, 0.5);
+    
+
+}
+
+#menu li
+{
+    padding: 10px 30px 10px 30px;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#menu li:hover
+{
+    
+    transition: 1s;
+    box-shadow: 1px 1px 1px 1px aqua;
 }
 
 .searchbotom
@@ -139,6 +174,26 @@ ion-icon[name="search"]
     border: 0.2 solid black;
     
 }
+
+
+
+#buttonposter
+{
+    width: 200px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: aqua;
+    color: white;
+    border: none;
+}
+
+#buttonposter:hover
+{
+    transition: 1s;
+    transform: scale(1.5);
+}
+
+
 
 .searchbotom:hover 
 {
