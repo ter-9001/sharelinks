@@ -128,6 +128,31 @@
                 border-radius: 10px;
                 border: none;" />
 
+                <button style="margin: 20px 0 0 40px;
+                background-color: red;
+                color: white;
+                border-radius: 10px;
+                border: none;
+                font-size: 17px;" onclick="
+                
+                let person = prompt('You\'re about to delete your account \n including posters and comments \n If you wanna proceed \n digit your user name \n and click ok');
+                if (person == '<?php echo trim($_SESSION['user']); ?>') {
+                      alert('Deleting! Thank you for using our website :)');
+
+                      
+
+
+
+                }
+                    
+                    
+
+                ">
+
+                        Delete Account
+
+                </button>
+
             </div>
 
         </form>
