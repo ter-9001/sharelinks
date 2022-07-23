@@ -113,7 +113,7 @@
                     <p> Gender </p>
                     <select name="gender" id="gender">
                         <option value="male">Male</option>
-                        <option value="female" selected>Female</option>
+                        <option value="female">Female</option>
                     </select>
                     <input type="text" name="singup" value="yes" style="display: none"/>
                 </div>
@@ -173,14 +173,14 @@
         
                    
         
-        if ($stmt = $conn->prepare("SELECT user, password, email FROM users WHERE user=  ?")) {
+        if ($stmt = $conn->prepare("SELECT user, password, email FROM users WHERE user=?")) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
             $stmt->bind_param('s', $_POST['emailuser']);
             $stmt->execute();
             // Store the result so we can check if the account exists in the database.
             $stmt->store_result();
 
-
+            
 
             if ($stmt->num_rows > 0) {
                 $stmt->bind_result($user,$passwordUser, $email);
@@ -188,14 +188,14 @@
                 // Account exists, now we verify the password.
                 // Note: remember to use password_hash in your registration file to store the hashed passwords.
                 
-
+                    
             
 
-               
 
                 if ( password_verify($_POST['password'], $passwordUser)) {
                     // Verification success! User has logged-in!
                     // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
+
                     session_start();
                     $_SESSION['loggedin'] = TRUE;
                     
@@ -204,12 +204,16 @@
        
                     
                      header('Location: home.php');
+                     exit();
                    
                     
 
 
 
                 } else {
+                    
+                    
+                    
                     // Incorrect password
                     echo " <script> Alert('Incorrect username and/or password!'); </script>";
                 }
@@ -271,7 +275,7 @@
             }
             else
             {
-                 $passwordUser = password_hash($_POST['user'], PASSWORD_DEFAULT);   
+                 $passwordUser = password_hash($_POST['password'], PASSWORD_DEFAULT);   
 
                  $servername = "localhost";
                  $username = "root";

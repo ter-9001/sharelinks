@@ -25,13 +25,13 @@
         <div id="main">
             
             <div id="frameuser"
-            class="row" onclick="filterUser()">
+            class="row" ">
             
             <?php
                 date_default_timezone_set('UTC');
                 session_start();
 
-                if(!isset($_SESSION['loggedin'])) {
+                if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']==false) {
                     header('Location: login.php');
                     exit;
                 }
@@ -68,20 +68,45 @@
                             $color='blue';
                         else
                             $color= '#ff00c3';   
-
-
-                                                        
-                                echo "
-                                <ion-icon name='contact'
-                                style='color:{$color};
-                                font-size: 30px; '></ion-icon>
-                                <p id='username' class='user'>{$actualUser} </p>";   
+   
             
                         }}
             
             ?>
 
+
+                            <ion-icon name='contact'
+                                style='color:<?php echo $color ?>;
+                                font-size: 30px; ' onclick="filterUser()"></ion-icon>
+                            <p id='username' class='user' onclick="filterUser()"> <?php echo $_SESSION['user'] ?> </p>
+
+                            <ion-icon style="margin-left: 10px" name="power" onclick="window.location.href='?logoff=ok';"></ion-icon>
+
+
+                            
+
+            <?php 
+            
+                        if(isset($_GET['logoff']))
+                        {
+                            $_SESSION['loggedin'] = false;
+                            header('Location: login.php');
+                        }
+            
+            
+            
+            
+            ?>            
+
+
+
+
+
             </div>
+
+
+            
+
                 <div class="row" id="navbar">
                     <div class="kind" onclick= "filter('youtube')">
                         <ion-icon name="logo-youtube"></ion-icon>    
@@ -102,6 +127,11 @@
                     <div class="kind" onclick= "filter('doubt')">
                         <ion-icon name="help"></ion-icon>    
                         <p> Doubt </p>
+                    </div>
+
+                    <div class="kind" onclick= "filter('')">
+                        <ion-icon name="cube"></ion-icon>    
+                        <p> All </p>
                     </div>
 
                     <div class="kind" onclick= "filter('flirt')">
@@ -169,7 +199,7 @@
 
 
 
-        <div id="posts" style="margin-top: 30px ;">
+        <div id="posts" style="margin-top: 50px ;">
 
 
 <!---
@@ -229,7 +259,7 @@
         
         
 
-         if(isset($filter) && !strcasecmp($row['category'],$filter)==0)
+         if( (isset($filter) && !strcasecmp($row['category'],$filter)==0) && !(trim($filter)=='') )
            continue;
 
 
