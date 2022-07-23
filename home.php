@@ -396,8 +396,7 @@
         '{$category}',
         '{$date}');";
 
-        echo "<script> alert({{$sql}); </script>";
-
+        
 
         
         if ($conn->query($sql) === TRUE) {
