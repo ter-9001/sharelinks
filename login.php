@@ -18,6 +18,7 @@
         display: flex;
         flex-direction: column;
         justify-content: start;
+        background-color: rgba(225, 225, 225, 0.9);
         
     }
 
@@ -66,11 +67,31 @@
         border: none;
     }
 
+    body
+    {
+        background-image: url('https://media.istockphoto.com/photos/young-woman-working-on-a-laptop-picture-id613241758?b=1&k=20&m=613241758&s=170667a&w=0&h=F5YuQPSC4i3ZvtFyvzo_zAh83LLEKmsJ8R9A2vsYoUg=');
+        background-repeat: no-repeat;
+        background-size: 100%, 100%;
+        
+    }
+
+    #apresetation
+    {
+        margin: 100px 0 0 50px;
+        color: white;
+
+    }
+
 
 </style>
 <link rel="stylesheet" type="text/css" href="style.css" />
 
 <body>
+
+    <div id="apresetation">
+        AAAAA
+    </div>
+
     <div id="login">
         <p style="margin: 10px 0 0 10px; font-size: 25px;"> Log in: </p>
 
@@ -174,9 +195,9 @@ if (isset($_GET['delete']) ) {
     session_start();
 
 
-    if ($stmt = $conn->prepare("DELETE FROM posters WHERE user=?")) {
+    if ($stmt = $conn->prepare("DELETE FROM sharelinks.posters WHERE user=?")) {
         // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-        $stmt->bind_param('s', $_SESSION['user']);
+        $stmt->bind_param('s',$_SESSION['user']);
         $stmt->execute();
         // Store the result so we can check if the account exists in the database.
         $status = $stmt->store_result();
