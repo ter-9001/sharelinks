@@ -79,7 +79,38 @@
     {
         margin: 100px 0 0 50px;
         color: white;
+        width: 40%;
 
+    }
+
+    #behind
+    {
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1000;
+        height: 100%; width: 100%;
+        position: fixed;
+        top: 0;
+        inset: 0;
+    
+        
+    }
+
+    li
+    {
+        margin: 20px 0 0 0;
+    }
+
+    video
+    {
+        width: 500px;
+        height: 320px;
+        border-radius: 10px;
+        border: solid 0.2 white;
+    }
+
+    .titulo
+    {
+        font-size: 25px; margin-bottom: 10px
     }
 
 
@@ -88,8 +119,28 @@
 
 <body>
 
+    <div id="behind"></div>
+
     <div id="apresetation">
-        AAAAA
+
+        <p class="titulo"> How share links works? </p>
+
+        <p style="font-size: 20px; margin: 0 0 0 10px"> Here you can share links for any purpose: </p>
+
+        <ul style="font-size: 20px; list-style: square">
+            <li> You can share your deepweb list and  your Youtube chanel. </li>
+            <li> Call your friends and stranges to a meet on a live and more. </li>
+            <li> Share any link of any social midia. </li>
+            <li> And so much more.... </li>
+        </ul>
+
+        <p class="titulo">So easy! Find what you want! </p>
+    
+        <video  src="" controls>
+
+        </video>
+
+
     </div>
 
     <div id="login">
