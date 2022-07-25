@@ -1,3 +1,8 @@
+<?php
+
+date_default_timezone_set('UTC');
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +33,6 @@
             class="row" ">
             
             <?php
-                date_default_timezone_set('UTC');
-                session_start();
 
                 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']==false) {
                     header('Location: login.php');
@@ -440,6 +443,10 @@
 
                 if ($conn->query($sql) === TRUE) {
                 
+
+                    echo   " <script> window.location.replace('home.php'); </script>";
+                    exit;
+
 
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;

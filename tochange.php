@@ -221,10 +221,9 @@
 
 
 if (isset($_POST['home'])) {
-    session_start();
     $_SESSION['loggedin'] = TRUE;
     $_SESSION['user'] = $_SESSION['user'];
-    header('Location: home.php');
+    echo "<script> window.location.href= 'home.php'; </script>";
     exit();
 }
 

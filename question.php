@@ -154,7 +154,7 @@
                        $trash = "
                     
                        <div style='position: relative; left: 50%; font-size: 25px'>
-                           <ion-icon name='trash' onclick='deletecomment()'></ion-icon>
+                           <ion-icon name='trash' onclick='deletepost()'></ion-icon>
                        </div>  
                       ";    
 
@@ -320,7 +320,15 @@
 
                         }}
                     
-                    
+                        $trash1= "";
+
+                        if($user == $_SESSION['user'])
+                        {
+                            $trash1 = "
+                                <div style='position: relative; left: 50%; font-size: 25px'>
+                                    <ion-icon name='trash' onclick='deleteComment(".$row['id'].")' name='deletecomm' value='yes'></ion-icon>
+                                </div> ";
+                        }
 
 
 
@@ -341,20 +349,12 @@
                                     <div style='margin-top: 10px; font-size: 17px'>
                                         {$row['comment']}
                                     </div>
-
                             </div>
+                           {$trash1}     
                     </div>";
 
-
-
-
-                }}
-                
-                  $conn->close();
-                  
-
-                  if(isset($_GET['deletepost']) && $_GET['deletepost'] == 'yes'
-                  && ($user_main == $_SESSION['user']))
+                if(isset($_GET['deletecomm']) && $_GET['deletecomm'] == $row['id']
+                  && ($user == $_SESSION['user']))
                   {
                         $servername = "localhost";
                         $username = "root";
@@ -371,13 +371,16 @@
                         die("Connection failed: " . $conn->connect_error);
                         }
                         
-                        $sql = "DELETE FROM posters WHERE posterid ='{$posterid}'";
+                        $sql = "DELETE FROM comments WHERE id ='{$row['id']}'";
 
                         $result1 = $conn->query($sql);
 
                         if ($conn->query($sql) === TRUE) 
                         {
-                            header('Location: home.php');
+                            $_SESSION['loggedin'] = true;
+                                            
+                            echo   " <script> window.location.replace('question.php?posterid={$posterid}'); </script>";
+                            exit;
                         }
                         else
                         { 
@@ -385,6 +388,13 @@
                         }
                         
                   }
+
+
+
+                }}
+                
+                  
+
                   
                   ?>                  
 
@@ -396,10 +406,16 @@
 
 <script>
 
-
-    function deletecomment()
+    function deleteComment(id)
     {
-        if(confirm("Do you want to continue?")){
+        if(confirm("Do you want to delete comment?")){
+            window.location.href= "?deletecomm="+id+"&posterid=<?php echo $posterid?>";
+        }
+    }            
+
+    function deletepost()
+    {
+        if(confirm("Do you want to delete post?")){
             window.location.href= "?deletepost=yes&posterid=<?php echo $posterid?>";
         }
 
@@ -440,7 +456,7 @@
 
 
 
-        $sql = "INSERT INTO comments VALUES({$posterid},'{$actualUser}',
+        $sql = "INSERT INTO comments VALUES(0,{$posterid},'{$actualUser}',
         '{$newcomm}',
         '{$date}');";
 
@@ -449,16 +465,8 @@
         
         if ($conn->query($sql) === TRUE) {
           
-
-
-        echo   " <script> window.location.href= '?actualUser={$actualUser}+&posterid={$posterid}'; </script>";
-
-
-
-
-
-
-
+            echo   " <script> window.location.replace('?posterid={$posterid}'); </script>";
+            exit;
 
           } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
@@ -470,6 +478,48 @@
 
     }
 
+
+
+    
+    if(isset($_GET['deletepost']) && $_GET['deletepost'] == 'yes'
+    && ($user_main == $_SESSION['user']))
+    {
+          $servername = "localhost";
+          $username = "root";
+          $password = "";
+          $dbname = "sharelinks";
+      
+      
+
+
+          // Create connection
+          $conn = new mysqli($servername, $username, $password, $dbname);
+          // Check connection
+          if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+          }
+          
+          $sql = "DELETE FROM posters WHERE posterid ='{$posterid}'";
+
+          $result1 = $conn->query($sql);
+
+          if ($conn->query($sql) === TRUE) 
+          {
+            $_SESSION['loggedin'] = true;
+
+            
+            echo   " <script> window.location.replace('home.php'); </script>";
+            exit;
+          }
+          else
+          { 
+              die('ERRO!!!'.$conn->error);
+          }
+          
+    }
+
+    
+    $conn->close();
 
 
 

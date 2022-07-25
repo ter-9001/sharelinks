@@ -235,7 +235,7 @@
 <?php
 
 
-if (isset($_GET['delete']) && ($_GET['delete'] == 'yes') ) {
+if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
     
 
 
@@ -264,7 +264,7 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'yes') ) {
 
                 if ($status === true) 
                 {
-                
+
                 }
                 else
                 {
@@ -310,6 +310,8 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'yes') ) {
 
                     $_SESSION['loggedin'] = false;
                     $_SESSION['user'] = null;
+                    echo   " <script> window.location.replace('login.php'); </script>";
+                    exit;
                     
                 }
                 else
