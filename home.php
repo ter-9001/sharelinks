@@ -389,6 +389,34 @@
         $password = "";
         $dbname = "sharelinks";
 
+        
+        $filename = "block.txt";
+        $handle = fopen($filename, "r");
+        $contents = fread($handle, filesize($filename));
+        $bwords = explode(' ', $contents);
+        fclose($handle);
+
+
+        foreach($bwords as  $bword)
+        {
+             if(preg_match('/'.$bword.'/i',$newpost)==1)
+             {
+                echo "<script> alert('Your post is blocked for prohibited content'); </script>";
+                die();
+             }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
    
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);

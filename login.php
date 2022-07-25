@@ -1,3 +1,7 @@
+<?php session_start(); 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +23,13 @@
         flex-direction: column;
         justify-content: start;
         background-color: rgba(225, 225, 225, 0.9);
+        border-radius: 5px;
+        z-index: 2000;
         
     }
 
     #singup
     {
-        z-index: -1;
         display: none;
         width: 700px;
         left: 42%;
@@ -210,6 +215,7 @@
         if(a == 'Up')
         {
             document.getElementById('login').style.display = 'none'
+            document.getElementById('apresetation').style.display = 'none'
             document.getElementById('singup').style.display = 'block'
 
         }  
@@ -218,6 +224,8 @@
         {
             document.getElementById('singup').style.display = 'none'
             document.getElementById('login').style.display = 'block'
+            document.getElementById('apresetation').style.display = 'block'
+
 
         }  
     }
@@ -226,7 +234,8 @@
 
 <?php
 
-if (isset($_GET['delete']) ) {
+
+if (isset($_GET['delete']) && ($_GET['delete'] == 'yes') ) {
     
 
 
@@ -243,10 +252,9 @@ if (isset($_GET['delete']) ) {
     }
 
     //p
-    session_start();
 
 
-    if ($stmt = $conn->prepare("DELETE FROM sharelinks.posters WHERE user=?")) {
+    if ($stmt = $conn->prepare("DELETE FROM posters WHERE user=?")) {
         // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
         $stmt->bind_param('s',$_SESSION['user']);
         $stmt->execute();
@@ -302,7 +310,7 @@ if (isset($_GET['delete']) ) {
 
                     $_SESSION['loggedin'] = false;
                     $_SESSION['user'] = null;
-                    header('Location: login.php');
+                    
                 }
                 else
                 {
@@ -361,16 +369,17 @@ if (isset($_GET['delete']) ) {
                 if ( password_verify($_POST['password'], $passwordUser)) {
                     // Verification success! User has logged-in!
                     // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
-
-                    session_start();
                     $_SESSION['loggedin'] = TRUE;
                     
                     // Melhorar log in 
                     $_SESSION['user'] = $_POST['emailuser'];
        
+                    flush(); // Flush the buffer
+                    ob_flush();
+                    //header('Location: home.php');
+                    echo "<script> window.location.href='home.php'; </script> ";
                     
-                     header('Location: home.php');
-                     exit();
+                    exit;
                    
                     
 
@@ -381,11 +390,11 @@ if (isset($_GET['delete']) ) {
                     
                     
                     // Incorrect password
-                    echo " <script> Alert('Incorrect username and/or password!'); </script>";
+                    echo " <script> alert('Incorrect username and/or password!'); </script>";
                 }
             } else {
                 // Incorrect username
-                     echo " <script> Alert('Incorrect username and/or password!'); </script>";
+                     echo " <script> alert('Incorrect username and/or password!'); </script>";
 
             }
             
@@ -459,7 +468,6 @@ if (isset($_GET['delete']) ) {
                  
                  if ($conn->query($sql) === TRUE) 
                  {
-                    session_start();
                     $_SESSION['loggedin'] = TRUE;
                     
 
