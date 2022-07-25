@@ -91,6 +91,7 @@
     $username = "root";
     $password = "";
     $dbname = "sharelinks";
+    $user_main;
  
     if(isset($_GET['posterid']))
       $posterid = $_GET['posterid'];
@@ -143,9 +144,19 @@
                     if($userinfo['gender']==1)
                         $color='blue';
                     else
-                        $color= '#ff00c3';   
+                        $color= '#ff00c3';
+                        
+                        
+                        $trash='';
 
 
+                    if($user_main == $_SESSION['user'])
+                       $trash = "
+                    
+                       <div style='position: relative; left: 50%; font-size: 25px'>
+                           <ion-icon name='trash' onclick='deletecomment()'></ion-icon>
+                       </div>  
+                      ";    
 
 
                         echo "
@@ -157,8 +168,9 @@
                         </div>
                     <div style='color: grey;font-size: 25px; text-align: center'> 
                         {$text}
-                    </div>   
-                   
+                    </div> 
+                    {$trash}
+
                 </div>";
 
             }}
@@ -340,6 +352,39 @@
                 
                   $conn->close();
                   
+
+                  if(isset($_GET['deletepost']) && $_GET['deletepost'] == 'yes'
+                  && ($user_main == $_SESSION['user']))
+                  {
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "sharelinks";
+                    
+                    
+
+
+                        // Create connection
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        // Check connection
+                        if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                        }
+                        
+                        $sql = "DELETE FROM posters WHERE posterid ='{$posterid}'";
+
+                        $result1 = $conn->query($sql);
+
+                        if ($conn->query($sql) === TRUE) 
+                        {
+                            header('Location: home.php');
+                        }
+                        else
+                        { 
+                            die('ERRO!!!'.$conn->error);
+                        }
+                        
+                  }
                   
                   ?>                  
 
@@ -350,6 +395,15 @@
     </div>
 
 <script>
+
+
+    function deletecomment()
+    {
+        if(confirm("Do you want to continue?")){
+            window.location.href= "?deletepost=yes&posterid=<?php echo $posterid?>";
+        }
+
+    }
     function sendComment()
     {
         

@@ -388,22 +388,28 @@
         $username = "root";
         $password = "";
         $dbname = "sharelinks";
+        $exit = 0 ;
 
         
         $filename = "block.txt";
         $handle = fopen($filename, "r");
         $contents = fread($handle, filesize($filename));
-        $bwords = explode(' ', $contents);
+        $bwords = explode(" ", $contents);
         fclose($handle);
 
 
         foreach($bwords as  $bword)
         {
-             if(preg_match('/'.$bword.'/i',$newpost)==1)
-             {
-                echo "<script> alert('Your post is blocked for prohibited content'); </script>";
-                die();
-             }
+
+            echo 'here is:'.$bword.' ';
+            if(preg_match('/'.$bword.'/i',$newpost)==1)
+            {
+                
+                
+                echo "<script> alert('Your post is blocked for prohibited content') </script>";
+                $exit=1;
+                
+            }
 
         }
 
@@ -418,40 +424,27 @@
 
 
    
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        if($exit == 0)
+        {
+                    // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                
+                $sql = "INSERT INTO posters VALUES( 0,'{$actualUser}',
+                '{$newpost}',
+                '{$category}',
+                '{$date}');";
+
+                if ($conn->query($sql) === TRUE) {
+                
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
+                }
         }
-        
-
-
-
-        $sql = "INSERT INTO posters VALUES( 0,'{$actualUser}',
-        '{$newpost}',
-        '{$category}',
-        '{$date}');";
-
-        
-
-        
-        if ($conn->query($sql) === TRUE) {
-          
-
-
-        echo   " <script> window.location.href= '?actualUser={$actualUser}+&posterid={$posterid}'; </script>";
-
-
-
-
-
-
-
-
-          } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-          }
 
 
 

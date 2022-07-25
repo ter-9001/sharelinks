@@ -193,6 +193,21 @@ ion-icon[name="search"]
     transform: scale(1.5);
 }
 
+.alert
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: grey;
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px aqua;
+    position: fixed;
+    right: 25%;
+    top: 10%;
+    display: flex;
+    justify-content: center;
+    z-index: 4000;
+
+}
+
 
 
 .searchbotom:hover 
