@@ -77,11 +77,14 @@ session_start();
             
             ?>
 
-
+                            <div>
+                                
                             <ion-icon name='contact' class="showmenu"
                                 style='color:<?php echo $color ?>;
                                 font-size: 30px; ' onclick="showmenu()"></ion-icon>
                                <p id='username' class='user showmenu' onclick="showmenu()" > <?php echo $_SESSION['user'] ?> </p>
+                            </div>
+
 
                             <ul id='menu'>
                                 <li onclick="filterUser()">
@@ -94,7 +97,14 @@ session_start();
                                 </li>
                             </ul>
 
+                            
+                            <div style="margin-left: 20px;">
+                                    <ion-icon name='notifications-outline' class="showmenu"
+                                        style='color:<?php echo $color ?>;
+                                        font-size: 30px; ' onclick="showmenu()"></ion-icon>
+                                    <p class='user showmenu' onclick="showmenu()" > Notifications </p>
 
+                            </div>
                             
 
             <?php 

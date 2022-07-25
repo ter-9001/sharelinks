@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Share Link </title>
 </head>
+
 <style>
     #login, #singup
     {
@@ -118,6 +119,21 @@
         font-size: 25px; margin-bottom: 10px
     }
 
+        
+    #footer
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-size: 17px;
+        background-color: rgba(125, 125, 125, 0.9);
+        padding: 30px 0 30px 0;
+        width: 100%;
+        color:white;
+        z-index: 1000;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
 
 </style>
 <link rel="stylesheet" type="text/css" href="style.css" />
@@ -207,6 +223,15 @@
 
         
     </div>
+
+<div id="footer">
+    <p> Contact the administrator here: </p>
+    <strong> @ </strong>
+</div>
+
+
+
+
 </body>
 <script>
     function Changelog(a)
