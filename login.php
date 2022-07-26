@@ -150,7 +150,7 @@
 
         <ul style="font-size: 20px; list-style: square">
             <li> You can share your deepweb list and  your Youtube chanel. </li>
-            <li> Call your friends and stranges to a meet on a live and more. </li>
+            <li> Call your friends and stranges to a meet on a live. </li>
             <li> Share any link of any social midia. </li>
             <li> And so much more.... </li>
         </ul>
