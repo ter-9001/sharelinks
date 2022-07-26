@@ -133,6 +133,8 @@
         color:white;
         z-index: 1000;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        position: fixed;
+        top: 85%;
     }
 
 </style>
@@ -464,7 +466,8 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
               die("Connection failed: " . $conn->connect_error);
             }
             
-            $sql = "SELECT user FROM users WHERE user='{$_POST['user']}' ";
+            $sql = "SELECT user FROM users WHERE user='{$_POST['user']}' 
+            UNION SELECT email FROM users WHERE email='{$_POST['email']}'";
             $result = $conn->query($sql);
 
             
@@ -472,7 +475,7 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
             
             if ( $result->num_rows > 0) {
               
-                echo "<script> alert('Err: User already exist!'); </script>";
+                echo "<script> alert('Err: User or email already exist!'); </script>";
 
             }
             else
@@ -491,7 +494,7 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
                    die("Connection failed: " . $conn->connect_error);
                  }
                  
-                 $sql = "INSERT INTO users values (0,'{$_POST['user']}','{$passwordUser}','{$_POST['gender']}', '{$_POST['email']}' )";
+                 $sql = "INSERT INTO users values (0,'{$_POST['user']}','{$passwordUser}','{$_POST['gender']}', '{$_POST['email']}', null )";
                  
                  if ($conn->query($sql) === TRUE) 
                  {
@@ -501,7 +504,7 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
 
                     $_SESSION['user'] = $_POST['user'];
                     
-                    header('Location: home.php');
+                    echo "<script>  window.location.href='home.php'; </script>";
                     
                  }
                  else

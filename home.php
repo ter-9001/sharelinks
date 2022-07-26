@@ -30,9 +30,14 @@ session_start();
         <div id="main">
             
             <div id="frameuser"
-            class="row" ">
+            class="row" >
             
             <?php
+
+            
+
+
+
 
                 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']==false) {
                     header('Location: login.php');
@@ -42,6 +47,7 @@ session_start();
                 if(isset($_SESSION['user']))
                     $actualUser = $_SESSION['user'];
 
+                   
 
                     $servername = "localhost";
                     $username = "root";
@@ -99,9 +105,12 @@ session_start();
 
                             
                             <div style="margin-left: 20px;">
+                                    <p style="background-color: red; border-radius: 50%;
+                                    margin: -10px -10px 0 0; padding: 5px; z-index: 2000; color: white; font-weight: 600; border: none; display: none;"   id="ringnot"> 0 </p>    
                                     <ion-icon name='notifications-outline' class="showmenu"
                                         style='color:<?php echo $color ?>;
                                         font-size: 30px; ' onclick="shownot()"></ion-icon>
+                                    
                                     <p class='user showmenu' onclick="shownot()" > Notifications </p>
 
                             </div>
@@ -142,7 +151,29 @@ session_start();
                                         while($row = $result->fetch_assoc()) {
                                             
                                             $end="";
+                                            $lastnot = "";
+                                            $class="";
                                                     
+                                                    $result1 = $conn -> query("
+                                                    SELECT lastnot FROM users WHERE user='{$_SESSION['user']}'");
+
+                                                    if ($result1->num_rows > 0) {
+                                                        // output data of each row
+                                                        while($row1 = $result1->fetch_assoc()) {
+                                                        
+                                                            $lastnot = $row1['lastnot'];
+                                                            
+                                                        
+                                                    }}    
+
+                                                    $currenttime = date("d F Y H:i:s");
+
+                                                    if(strtotime($lastnot) < strtotime($row['date']) )
+                                                      $class = 'newnot';
+
+
+
+
                                                     if(strcasecmp($row['userposter'], $_SESSION['user'])==0)
                                                     {
                                                         $end= "<h> comment on Your poster </h>";
@@ -152,9 +183,13 @@ session_start();
                                                         $end = "<h> comment on the poster <span> {$row['text']} </span> </h>";
                                                     }
 
-                                                echo "<li onclick= 'question({$row["id"]})'>  <span> {$row['user']} </span>  {$end}  </li>";    
+                                                echo "<li class='{$class}' onclick= 'question({$row["id"]})'>  <span> {$row['user']} </span>  {$end}  </li>";    
                                             
                                             }}
+                                            else
+                                            {
+                                                echo "<li> <h> Result 0 </h> </li>";
+                                            }
 
 
 
@@ -169,6 +204,37 @@ session_start();
                             
 
             <?php 
+
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sharelinks";
+
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+
+
+                $lastnot = date("d F Y H:i:s");
+                $sql = "UPDATE users SET lastnot ='{$lastnot}' WHERE user='{$_SESSION['user']}'";
+
+
+
+
+                if ($conn->query($sql) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
+                }
+
+
+                $conn -> close();
+
             
                         if(isset($_GET['logoff']))
                         {
@@ -282,7 +348,7 @@ session_start();
 
 
 
-        <div id="posts" style="margin-top: 50px ;">
+        <div id="posts" style="margin-top: 100px ;">
 
 
 <!---
@@ -411,10 +477,16 @@ session_start();
 ?>
 
 
-
+                  
+        <div id="footer">
+            <p> Contact the administrator here: </p>
+            <strong> @ </strong>
+        </div>
 
 
         </div>
+
+
         <div id="ask" >
 
         <form method="post" >
@@ -448,6 +520,8 @@ session_start();
         </form>
 
         </div>
+
+      
 
 <?php 
 
@@ -536,6 +610,21 @@ session_start();
 
     var menu=0;
     var not=0;
+    var nots = Array.from(document.getElementsByClassName("newnot")).length;
+
+
+    if(nots > 0)
+    {
+        document.getElementById('ringnot').style.display = 'block';
+        document.getElementById('ringnot').innerHTML = nots;
+
+    }
+
+
+
+
+
+
 
 
    function filter(a)
@@ -581,10 +670,15 @@ session_start();
       {
             menu++;
 
+            hideli();
+
             if(menu%2)
                document.getElementById('menu').style.display = 'block';
             else
                document.getElementById('menu').style.display = 'none';
+
+
+            
 
       }
 
@@ -592,10 +686,38 @@ session_start();
       {
             not++;
 
+
+            hideli();
+
             if(not%2)
-               document.getElementById('not').style.display = 'block';
+            {
+    
+                document.getElementById('not').style.display = 'block';
+                document.getElementById('ringnot').style.display = 'none';
+
+            }   
             else
                document.getElementById('not').style.display = 'none';
+
+            
+
+
+
+      }
+
+
+      function hideli()
+      {
+          var target = Array.from(document.getElementsByTagName("ul"));
+
+          target.forEach(
+            obj => obj.style.display = 'none'
+          );
+        
+          
+
+          return;
+
 
       }
 

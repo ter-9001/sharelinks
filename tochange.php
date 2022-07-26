@@ -171,6 +171,13 @@
     </div>
 
 
+        
+    <div id="footer" style="position: absolute; top: 85%">
+        <p> Contact the administrator here: </p>
+        <strong> @ </strong>
+    </div>
+
+
 </body>
 
 
