@@ -101,10 +101,71 @@ session_start();
                             <div style="margin-left: 20px;">
                                     <ion-icon name='notifications-outline' class="showmenu"
                                         style='color:<?php echo $color ?>;
-                                        font-size: 30px; ' onclick="showmenu()"></ion-icon>
-                                    <p class='user showmenu' onclick="showmenu()" > Notifications </p>
+                                        font-size: 30px; ' onclick="shownot()"></ion-icon>
+                                    <p class='user showmenu' onclick="shownot()" > Notifications </p>
 
                             </div>
+
+                            <ul id="not">
+                                        
+
+                                        <?php
+
+
+                                        $servername = "localhost";
+                                        $username = "root";
+                                        $password = "";
+                                        $dbname = "sharelinks";
+
+
+                                        // Create connection
+                                        $conn = new mysqli($servername, $username, $password, $dbname);
+                                        // Check connection
+                                        if ($conn->connect_error) {
+                                        die("Connection failed: " . $conn->connect_error);
+                                        }
+
+                                        $sql = "SELECT comments.user as user, posters.user as userposter, comments.comment, posters.text,
+                                        posters.posterid as id,
+                                        comments.date FROM comments RIGHT JOIN posters ON comments.posterid = posters.posterid WHERE 
+                                        comments.posterid = (SELECT comments.posterid FROM comments WHERE user = '{$_SESSION['user']}') AND 
+                                        comments.user !='{$_SESSION['user']}' 
+                                        UNION SELECT comments.user as user, posters.user as userposter, comments.comment, posters.text,
+                                        posters.posterid as id,
+                                        comments.date FROM comments 
+                                        RIGHT JOIN posters ON comments.posterid = posters.posterid WHERE posters.user='{$_SESSION['user']}' AND 
+                                        comments.user !='{$_SESSION['user']}' order by date desc;";
+                                        $result = $conn->query($sql);
+
+                                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                                        while($row = $result->fetch_assoc()) {
+                                            
+                                            $end="";
+                                                    
+                                                    if(strcasecmp($row['userposter'], $_SESSION['user'])==0)
+                                                    {
+                                                        $end= "<h> comment on Your poster </h>";
+                                                    }
+                                                    else
+                                                    {
+                                                        $end = "<h> comment on the poster <span> {$row['text']} </span> </h>";
+                                                    }
+
+                                                echo "<li onclick= 'question({$row["id"]})'>  <span> {$row['user']} </span>  {$end}  </li>";    
+                                            
+                                            }}
+
+
+
+                                            
+                                            $conn->close();
+                                            
+
+                                        ?>
+                                        </ul>
+
+
                             
 
             <?php 
@@ -474,6 +535,8 @@ session_start();
 <script>
 
     var menu=0;
+    var not=0;
+
 
    function filter(a)
    {
@@ -522,6 +585,17 @@ session_start();
                document.getElementById('menu').style.display = 'block';
             else
                document.getElementById('menu').style.display = 'none';
+
+      }
+
+      function shownot()
+      {
+            not++;
+
+            if(not%2)
+               document.getElementById('not').style.display = 'block';
+            else
+               document.getElementById('not').style.display = 'none';
 
       }
 

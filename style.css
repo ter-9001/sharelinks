@@ -129,7 +129,7 @@
     background-color: rgba(128, 125, 123, 0.3);
 }
 
-#menu
+#menu, #not
 {
     display: none;
     list-style: none;
@@ -145,7 +145,8 @@
 
 }
 
-#menu li
+#menu li,
+#not li
 {
     padding: 10px 30px 10px 30px;
     font-size: 15px;
@@ -158,11 +159,58 @@
 }
 
 #menu li:hover
+
 {
     
     transition: 1s;
     box-shadow: 1px 1px 1px 1px aqua;
 }
+
+#not li:hover
+
+{
+    
+    transition: 1s;
+    box-shadow: 1px 1px 1px 1px aqua;
+}
+
+#not
+{
+        width: 400px;
+        z-index: 2000;
+        position:absolute;
+        right: 20%;
+        top: 40%;
+        background-color: grey;
+}
+
+#not li
+{
+    color: white;
+    padding: 10px 0 20px 0;
+    display: inline-flex;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+#not span
+{
+    font-weight: bolder;
+    
+}
+
+#not span,h
+{
+    margin-left: 5px;
+}
+
+
+
 
 .searchbotom
 {
