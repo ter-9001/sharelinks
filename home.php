@@ -80,6 +80,7 @@ session_start();
         {
             top: 50%;
             left: 5%;
+            margin-top: 150px;
         }
 
         .postertexto
