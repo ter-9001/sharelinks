@@ -77,7 +77,7 @@
     {
         background-image: url('https://media.istockphoto.com/photos/young-woman-working-on-a-laptop-picture-id613241758?b=1&k=20&m=613241758&s=170667a&w=0&h=F5YuQPSC4i3ZvtFyvzo_zAh83LLEKmsJ8R9A2vsYoUg=');
         background-repeat: no-repeat;
-        background-size: 100%, 100%;
+        background-size: cover;
         
     }
 
@@ -95,7 +95,6 @@
         z-index: -1000;
         height: 100%; width: 100%;
         position: fixed;
-        top: 0;
         inset: 0;
     
         
@@ -137,6 +136,71 @@
         top: 85%;
     }
 
+    #smenu
+    {
+        display: none;
+    }
+
+
+    @media(max-width: 660px)
+    {
+        
+        
+        #login, #singup
+        {
+            left: 20%;
+            width: 70%;
+            display: none;
+
+        }
+
+        input
+        {
+            width: 80%;
+
+        }
+        
+        #apresetation
+        {
+            margin: auto;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video
+        {
+            width: 100%;
+        }
+
+        body
+        {
+            background-size: 100% 100%;
+            height:max-content;
+        }
+
+        #smenu
+        {
+            display: block;
+            position: fixed;
+            top: 90%;
+            z-index: 2000;
+            background-color: red;
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+        }
+
+
+
+        
+    }
+
 </style>
 <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -173,7 +237,7 @@
             <p> User </p>
             <input type="text" name="emailuser" id="emailuser" />
             <p> Password </p>
-            <input type="text" name="password" id="password" />
+            <input type="password" name="password" id="password" />
             
             <input type="text" name="singup" value="no" style="display: none"/>
             <input type="submit" id="submit">
@@ -232,6 +296,8 @@
 </div>
 
 
+<button id="smenu" onclick="Changelog('In')"> Get Start </button>
+
 
 
 </body>
@@ -242,7 +308,7 @@
         if(a == 'Up')
         {
             document.getElementById('login').style.display = 'none'
-            document.getElementById('apresetation').style.display = 'none'
+            document.getElementById('apresetation').style.visibility = 'hidden';
             document.getElementById('singup').style.display = 'block'
 
         }  
@@ -250,8 +316,8 @@
         if(a == 'In')
         {
             document.getElementById('singup').style.display = 'none'
+            document.getElementById('apresetation').style.visibility = 'visible';
             document.getElementById('login').style.display = 'block'
-            document.getElementById('apresetation').style.display = 'block'
 
 
         }  

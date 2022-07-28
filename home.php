@@ -6,6 +6,8 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+<link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +16,6 @@ session_start();
     <script src="https://kit.fontawesome.com/4372633949.js" crossorigin="anonymous"></script>
 </head>
    
-    <link rel="stylesheet" type="text/css" href="style.css" />
 
 <style>
     
@@ -22,6 +23,89 @@ session_start();
 {
     text-transform: capitalize;
 }
+
+#posts
+{
+    margin-top: 100px ;
+}
+
+#psubmit
+{
+    width: 200px; height: 20px; border-radius: 10px; background-color: aqua; color: white; border: none; margin-top: 20px; position: relative;            left: 25%;
+}
+
+
+@media(max-width : 660px)
+{
+   
+        .kind
+        {
+            border: solid 0.2px aqua;
+        }
+        #main
+        {
+            position: absolute;
+        }
+
+        #ask, #change 
+        {
+            width: 100%;
+            top: 15%;
+            right: 0%;
+            
+        }
+
+        #psubmit
+        {
+            left: 0%;
+        }
+
+        #frameuser
+        {
+            left: -20%;
+        }
+
+        .searchbox
+        {
+            width: 300px;
+        }
+
+        #navbar
+        {
+            width: 300px;
+            flex-wrap: wrap;
+        }
+
+        #posts
+        {
+            top: 50%;
+            left: 5%;
+        }
+
+        .postertexto
+        {
+            font-size: 17px;
+            margin-top: 0px;
+        }
+
+        .posterinfo
+        {
+            width: 200px;
+        }
+
+        #footer
+        {
+            width: fit-content;
+            position: fixed;
+            left: 10%;
+        }
+
+
+}
+
+
+
+
 </style>    
 <body>
 
@@ -34,7 +118,7 @@ session_start();
             
             <?php
 
-            
+                require_once('date.php');
 
 
 
@@ -348,7 +432,7 @@ session_start();
 
 
 
-        <div id="posts" style="margin-top: 100px ;">
+        <div id="posts" >
 
 
 <!---
@@ -434,11 +518,11 @@ session_start();
                 <p id='username' class='user'> ".$row['user']." </p>
             </div>
 
-       <div id='postertexto' class='colunm'> 
+       <div class='postertexto' class='colunm'> 
            <div class='posterinfo row'>
                <p> Category: ".$row['category']." <p>
 
-               <p> Date: ".$row['date']." </p>
+               <p> ".timeago($row['date'])." </p>
 
            </div>
            ";
@@ -510,8 +594,7 @@ session_start();
 
             </select>
 
-            <input type="submit" value="Post!" style="width: 200px; height: 20px; border-radius: 10px; background-color: aqua; color: white; border: none; margin-top: 20px; position: relative;
-            left: 25%;" />
+            <input type="submit" value="Post!" id="psubmit" />
 
 
 
@@ -635,7 +718,7 @@ session_start();
 
    function question(a)
    {
-        window.location.href = 'question.php?posterid='+a;
+        window.location.replace('question.php?posterid='+a);
    }
 
    document.addEventListener("click", (evt) => {

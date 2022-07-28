@@ -83,6 +83,8 @@
     session_start();
     
     
+    require_once('date.php');
+    
     // poster_id user comment data --> comments
 
     // id user gender email --> user
@@ -344,7 +346,7 @@
                             color: grey;
                             justify-content: start; 
                             align-items: start'>
-                                    <p> Date: {$row['date']} </p>
+                                    <p> ".timeago($row['date'])." </p>
                                     
                                     <div style='margin-top: 10px; font-size: 17px'>
                                         {$row['comment']}

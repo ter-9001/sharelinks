@@ -355,7 +355,7 @@ ion-icon[name="contact"]
     padding: 10px;
 }
 
-#postertexto
+.postertexto
 {
     font-size: 20px;
     margin-top: 0px;
@@ -484,3 +484,11 @@ a
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         
     }
+
+
+
+#psubmit
+{
+    width: 200px; height: 20px; border-radius: 10px; background-color: aqua; color: white; border: none; margin-top: 20px; position: relative;            left: 25%;
+}
+
