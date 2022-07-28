@@ -327,6 +327,8 @@
 
 <?php
 
+require_once('functions.php');
+
 
 if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
     
@@ -472,6 +474,8 @@ if (isset($_GET['delete']) && ($_GET['delete'] == 'ok') ) {
                     flush(); // Flush the buffer
                     ob_flush();
                     //header('Location: home.php');
+                    
+                    
                     echo "<script> window.location.href='home.php'; </script> ";
                     
                     exit;

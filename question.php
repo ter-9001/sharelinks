@@ -14,6 +14,12 @@
 <style>
 
 
+#postertexto
+{
+    color: grey;font-size: 25px; text-align: center;  
+}
+
+
 .user, #username
 {
     text-transform: capitalize;
@@ -64,10 +70,67 @@
 }
 
 
+.trash
+{
+    position: relative; 
+    left: 50%; 
+    font-size: 25px
+}
+
+
 #submit:hover
 {
     transition: 1s;
     background-color: rgba(125, 125, 125, 0.3);
+}
+
+
+
+@media(max-width : 660px)
+{
+    
+    .quadro
+    {
+        width: 90%;
+    }
+
+    form
+    {
+        display: flex;
+        flex-direction: row;
+    }
+
+    ion-icon[name='send']
+    {
+        margin: 10px;
+        margin-top: 30px;
+    }
+
+
+    #submit
+    {
+        right: 10%;
+    }
+    
+    
+    
+    .trash
+    {
+        left: 10%;
+    }
+    
+    
+    #poster
+    {
+        width: 80%;
+        padding-bottom: 10px;
+        margin: 0;
+    }
+
+    #postertexto
+    {
+        font-size: 17px;
+    }
 }
 
 
@@ -83,7 +146,7 @@
     session_start();
     
     
-    require_once('date.php');
+    require_once('functions.php');
     
     // poster_id user comment data --> comments
 
@@ -155,20 +218,20 @@
                     if($user_main == $_SESSION['user'])
                        $trash = "
                     
-                       <div style='position: relative; left: 50%; font-size: 25px'>
+                       <div class='trash'>
                            <ion-icon name='trash' onclick='deletepost()'></ion-icon>
                        </div>  
                       ";    
 
 
                         echo "
-                        <div class=' quadro column' style='display: flex; justify-content: start; margin: 0 10px 0 10px; padding-bottom: 100px'>
+                        <div class=' quadro column' id='poster' >
                         <div id='userinfo' class='column' style=' margin-right: 100px'>
                                 <ion-icon name='contact'
                                 style='color:".$color.";'></ion-icon>
                                 <p id='username' class='user'> {$user_main} </p>
                         </div>
-                    <div style='color: grey;font-size: 25px; text-align: center'> 
+                    <div id='postertexto'> 
                         {$text}
                     </div> 
                     {$trash}
@@ -290,7 +353,7 @@
                     die("Connection failed: " . $conn->connect_error);
                     }
                     
-                    $sql = "SELECT * FROM comments WHERE posterid ='{$posterid}'";
+                    $sql = "SELECT * FROM comments WHERE posterid ='{$posterid}' ORDER BY date desc";
 
                     $result1 = $conn->query($sql);
 
@@ -327,7 +390,7 @@
                         if($user == $_SESSION['user'])
                         {
                             $trash1 = "
-                                <div style='position: relative; left: 50%; font-size: 25px'>
+                                <div class='trash'>
                                     <ion-icon name='trash' onclick='deleteComment(".$row['id'].")' name='deletecomm' value='yes'></ion-icon>
                                 </div> ";
                         }

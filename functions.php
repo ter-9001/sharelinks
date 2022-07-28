@@ -29,5 +29,11 @@ $timemsg = $timemsg.' ago';
 return $timemsg;
 }
 
+function redirect($url)
+{
+    echo "window.location.replace('{$url}')";
+    return;
+}
+
 
 ?>

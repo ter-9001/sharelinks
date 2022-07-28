@@ -373,6 +373,12 @@ ion-icon[name="contact"]
 
 }
 
+
+#poster
+{
+    display: flex; justify-content: start; margin: 0 10px 0 10px; padding-bottom: 100px;
+}
+
 .user, #username
 {
     text-transform: capitalize;
@@ -402,6 +408,8 @@ a
 {
     display: block;
 }
+
+
 
 
     #ask label,#ask p,#ask a, 

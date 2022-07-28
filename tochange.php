@@ -16,6 +16,9 @@
     session_start();
 
 
+    require_once('functions.php');
+
+
 
     if (!isset($_SESSION['loggedin'])) {
         header('Location: login.php');
@@ -67,6 +70,19 @@
             border-radius: 10px;
             border: none;
         }
+
+        @media(max-width : 660px)
+        {
+            #change
+            {
+                right: 0;
+                width: 95%;
+            }
+
+
+        }
+
+
     </style>
 
 

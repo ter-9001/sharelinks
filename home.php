@@ -47,7 +47,7 @@ session_start();
             position: absolute;
         }
 
-        #ask, #change 
+        #ask 
         {
             width: 100%;
             top: 15%;
@@ -119,13 +119,13 @@ session_start();
             
             <?php
 
-                require_once('date.php');
+                require_once('functions.php');
 
 
 
 
                 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']==false) {
-                    header('Location: login.php');
+                    redirect('login.php');
                     exit;
                 }
                     
@@ -324,7 +324,7 @@ session_start();
                         if(isset($_GET['logoff']))
                         {
                             $_SESSION['loggedin'] = false;
-                            header('Location: login.php');
+                            redirect('login.php');
                         }
             
             
@@ -466,7 +466,7 @@ session_start();
      die("Connection failed: " . $conn->connect_error);
    }
    
-   $sql = "SELECT * FROM posters";
+   $sql = "SELECT * FROM posters ORDER BY date desc";
    $result = $conn->query($sql);
    
    if ($result->num_rows > 0) {
